@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    @*Set the viewport width to device width for mobile *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewBag.Title - Welcome to Foundation</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    @Styles.Render("~/Content/foundation/css")
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @RenderSection("head", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Scripts/Wow/animate.css" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="row">
+                <div class="large-4 columns">
+                    <a href="@Url.Action("Index", "Inicio", new { Area="" })">
+
+                        <h3>HomeWork Wizard</h3>
+                        <i>Por que no todos nacimos inteligentes</i>
+
+                    </a>
+                </div>
+                <div class="large-8 columns">
+                    <ul class="button-group right">
+                        <li><a href="@Url.Action("Servicios", "Inicio", new { Area = "" })" class="button small">Servicios</a></li>
+                        <li><a href="@Url.Action("Index", "Tienda", new { Area="" })" class="button small">Tienda</a></li>
+                        <li><a href="@Url.Action("Colaboradores", "Inicio", new { Area = "" })"></a></li>
+                        <li><a href="#" class="button small">Colaboradores</a></li>
+                        @{Html.RenderPartial("_LoginPartial");}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @RenderBody()
+    <footer>
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="panel">
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/foundation")
+    <script>
+        $(document).foundation();
+    </script>
+    <script src="~/Scripts/Wow/wow.min.js"></script>
+    <script>
+        new WOW().init();
+        //Smooth scrolling
+        $(function () {
+            $('a[href*=#]:not([href=#])').click(function () {
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
+    @*Use the Scripts section to define page specific scripts*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

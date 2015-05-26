@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="large-12 columns text-center">
+        <h2>Mi Cuenta</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="large-4 columns">
+        <ul class="side-nav" role="navigation" title="Link List">
+            <li role="menuitem"><a data-tooltip class="has-tip" title="Información de Usuario" href="#">Mi Información</a></li>
+            <li role="menuitem"><a data-tooltip class="has-tip" title="Compras realizadas" href="#">Mis Compras</a></li>
+            <li role="menuitem"><a data-tooltip aria-haspopup="true" class=" has-tip" title="Ventas Realizadas" href="#">Mis Ventas</a></li>
+            <li role="menuitem"><a data-tooltip class="has-tip" title="Canjea un codigo de regalo" href="#">Canjear Codigo</a></li>
+
+            @if (User.IsInRole("Premium"))
+            {
+                <li role="menuitem"><a data-tooltip aria-haspopup="true" class=" has-tip" href="#">Mi subscripción</a></li>
+            }
+            else
+            {
+                <li role="menuitem"><a data-tooltip aria-haspopup="true" class="has-tip" title="Cambiar el tipo de suscripción" href="#">Actualizar mi subscripción</a></li>
+            }
+            <li role="menuitem"><a data-tooltip aria-haspopup="true" class="has-tip" title="Cambiar la contraseña del usuario" href="@Url.Action("Manage", "Account", new { Area="" })">Cambiar mi contraseña</a></li>
+
+            <li role="menuitem">
+                <div class="panel">
+                    <h4><span class="label alert">Zona Peligrosa</span></h4>
+                    <ul class="side-nav">
+                        <li role="menuitem"><a data-tooltip aria-haspopup="true" title="Genera codigos de licencias para las compras realizadas" class="has-tip" href="#">Transferir licencias</a></li>
+                        <li role="menuitem"><a data-tooltip aria-haspopup="true" title="Cierra la cuenta del usuario permanentemente" class="has-tip" href="#">Cerrar Cuenta</a></li>
+                    </ul>
+                </div>
+
+            </li>
+        </ul>
+    </div>
+    <div id="dash_contenedor" class="large-8 columns">
+        <div class="panel">
+            <p>
+            Desde este panel podras controlar las acciones de tu cuenta de usuario
+            </p>
+        </div>
+    </div>
+</div>
