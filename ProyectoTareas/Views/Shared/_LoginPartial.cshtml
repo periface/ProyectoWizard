@@ -4,7 +4,7 @@
         <li>
             @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "Index", "Yo", routeValues: new { Area="Miembros" }, htmlAttributes: new { title = "Manage", @class = "button small" })
         </li>
-        <li><a class="button small" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        <li><a class="button small" href="javascript:document.getElementById('logoutForm').submit()">Cerrar</a></li>
  
     using (Html.BeginForm("LogOff", "Account", new { Area="" }, FormMethod.Post, new { id = "logoutForm" }))
     {
@@ -13,7 +13,7 @@
 }
 else
 {
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "button small" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "button small" })</li>
+        <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "button small" })</li>
+        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "button small" })</li>
     
 }

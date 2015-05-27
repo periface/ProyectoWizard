@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="bdTareasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="carroCompra">
+          <Key>
+            <PropertyRef Name="idRecord" />
+          </Key>
+          <Property Name="idRecord" Type="int" Nullable="false" />
+          <Property Name="idCarrito" Type="nvarchar(max)" />
+          <Property Name="idProducto" Type="int" />
+          <Property Name="Conteo" Type="int" />
+          <Property Name="FechaCreacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="catCarrera">
+          <Key>
+            <PropertyRef Name="idCarrera" />
+          </Key>
+          <Property Name="idCarrera" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="100" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="200" />
+          <Property Name="idNivelEstudio" Type="int" />
+        </EntityType>
+        <EntityType Name="catDireccionUsuario">
+          <Key>
+            <PropertyRef Name="idRegistro" />
+          </Key>
+          <Property Name="idRegistro" Type="int" Nullable="false" />
+          <Property Name="idMiembro" Type="int" />
+          <Property Name="DireccionL1" Type="nvarchar" MaxLength="200" />
+          <Property Name="DireccionL2" Type="nvarchar" MaxLength="200" />
+          <Property Name="Ciudad" Type="nvarchar" MaxLength="200" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="200" />
+          <Property Name="CP" Type="int" />
+          <Property Name="Pais" Type="nvarchar" MaxLength="200" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="catNivelEstudio">
+          <Key>
+            <PropertyRef Name="idNivel" />
+          </Key>
+          <Property Name="idNivel" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="200" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="catTipo">
+          <Key>
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idTipo" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="catTipoProducto">
+          <Key>
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idTipo" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="200" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="200" />
+          <Property Name="template" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="detalleOrden">
+          <Key>
+            <PropertyRef Name="idOrdenDetalle" />
+          </Key>
+          <Property Name="idOrdenDetalle" Type="int" Nullable="false" />
+          <Property Name="idOrden" Type="int" />
+          <Property Name="idProducto" Type="nvarchar" MaxLength="256" />
+          <Property Name="PrecioUnitario" Type="money" />
+        </EntityType>
+        <EntityType Name="miembro">
+          <Key>
+            <PropertyRef Name="idMiembro" />
+          </Key>
+          <Property Name="idMiembro" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" />
+          <Property Name="ApellidoP" Type="nvarchar" MaxLength="100" />
+          <Property Name="ApellidoM" Type="nvarchar" MaxLength="100" />
+          <Property Name="DireccionL1" Type="nvarchar" MaxLength="300" />
+          <Property Name="DireccionL2" Type="nvarchar" MaxLength="300" />
+          <Property Name="CP" Type="int" />
+          <Property Name="idAspNetUsers" Type="nvarchar" MaxLength="128" />
+          <Property Name="idTipo" Type="int" />
+        </EntityType>
+        <EntityType Name="orden">
+          <Key>
+            <PropertyRef Name="idOrden" />
+          </Key>
+          <Property Name="idOrden" Type="int" Nullable="false" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="200" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" />
+          <Property Name="ApellidoP" Type="nvarchar" MaxLength="200" />
+          <Property Name="ApellidoM" Type="nvarchar" MaxLength="200" />
+          <Property Name="Direccion" Type="nvarchar(max)" />
+          <Property Name="Ciudad" Type="nvarchar" MaxLength="300" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="300" />
+          <Property Name="CP" Type="int" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Total" Type="money" />
+          <Property Name="FechaOrden" Type="datetime" />
+          <Property Name="OrdenPagada" Type="bit" />
+        </EntityType>
+        <EntityType Name="producto">
+          <Key>
+            <PropertyRef Name="idProducto" />
+          </Key>
+          <Property Name="idProducto" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="idCarrera" Type="int" />
+          <Property Name="idTipoProducto" Type="int" />
+          <Property Name="nombreProducto" Type="nvarchar" MaxLength="200" />
+          <Property Name="descCorta" Type="nvarchar" MaxLength="200" />
+          <Property Name="descLargaContenido" Type="nvarchar(max)" />
+          <Property Name="precio" Type="money" />
+          <Property Name="disponible" Type="bit" />
+          <Property Name="fechaCreacion" Type="datetime" />
+          <Property Name="fechaModificacion" Type="datetime" />
+          <Property Name="tags" Type="nvarchar" MaxLength="200" />
+          <Property Name="comentarios" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="bdTareasModelStoreContainer">
+          <EntitySet Name="carroCompra" EntityType="Self.carroCompra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catCarrera" EntityType="Self.catCarrera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catDireccionUsuario" EntityType="Self.catDireccionUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catNivelEstudio" EntityType="Self.catNivelEstudio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catTipo" EntityType="Self.catTipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catTipoProducto" EntityType="Self.catTipoProducto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="detalleOrden" EntityType="Self.detalleOrden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="miembro" EntityType="Self.miembro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orden" EntityType="Self.orden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="producto" EntityType="Self.producto" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bdTareasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="carroCompra">
+          <Key>
+            <PropertyRef Name="idRecord" />
+          </Key>
+          <Property Name="idRecord" Type="Int32" Nullable="false" />
+          <Property Name="idCarrito" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="idProducto" Type="Int32" />
+          <Property Name="Conteo" Type="Int32" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="catCarrera">
+          <Key>
+            <PropertyRef Name="idCarrera" />
+          </Key>
+          <Property Name="idCarrera" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="idNivelEstudio" Type="Int32" />
+        </EntityType>
+        <EntityType Name="catDireccionUsuario">
+          <Key>
+            <PropertyRef Name="idRegistro" />
+          </Key>
+          <Property Name="idRegistro" Type="Int32" Nullable="false" />
+          <Property Name="idMiembro" Type="Int32" />
+          <Property Name="DireccionL1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DireccionL2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Ciudad" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CP" Type="Int32" />
+          <Property Name="Pais" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="catNivelEstudio">
+          <Key>
+            <PropertyRef Name="idNivel" />
+          </Key>
+          <Property Name="idNivel" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="catTipo">
+          <Key>
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idTipo" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="catTipoProducto">
+          <Key>
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idTipo" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="template" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="detalleOrden">
+          <Key>
+            <PropertyRef Name="idOrdenDetalle" />
+          </Key>
+          <Property Name="idOrdenDetalle" Type="Int32" Nullable="false" />
+          <Property Name="idOrden" Type="Int32" />
+          <Property Name="idProducto" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PrecioUnitario" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="producto">
+          <Key>
+            <PropertyRef Name="idProducto" />
+          </Key>
+          <Property Name="idProducto" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idCarrera" Type="Int32" />
+          <Property Name="idTipoProducto" Type="Int32" />
+          <Property Name="nombreProducto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="descCorta" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="descLargaContenido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="precio" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="disponible" Type="Boolean" />
+          <Property Name="fechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="fechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="tags" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="comentarios" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="bdTareasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="carroCompra" EntityType="Self.carroCompra" />
+          <EntitySet Name="catCarrera" EntityType="Self.catCarrera" />
+          <EntitySet Name="catDireccionUsuario" EntityType="Self.catDireccionUsuario" />
+          <EntitySet Name="catNivelEstudio" EntityType="Self.catNivelEstudio" />
+          <EntitySet Name="catTipo" EntityType="Self.catTipo" />
+          <EntitySet Name="catTipoProducto" EntityType="Self.catTipoProducto" />
+          <EntitySet Name="detalleOrden" EntityType="Self.detalleOrden" />
+          <EntitySet Name="producto" EntityType="Self.producto" />
+          <EntitySet Name="miembro" EntityType="bdTareasModel.miembro" />
+          <EntitySet Name="orden" EntityType="bdTareasModel.orden" />
+        </EntityContainer>
+        <EntityType Name="miembro">
+          <Key>
+            <PropertyRef Name="idMiembro" />
+          </Key>
+          <Property Name="idMiembro" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoP" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoM" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DireccionL1" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="DireccionL2" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CP" Type="Int32" />
+          <Property Name="idAspNetUsers" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="idTipo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="orden">
+          <Key>
+            <PropertyRef Name="idOrden" />
+          </Key>
+          <Property Name="idOrden" Type="Int32" Nullable="false" />
+          <Property Name="Usuario" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoP" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoM" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ciudad" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CP" Type="Int32" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FechaOrden" Type="DateTime" Precision="3" />
+          <Property Name="OrdenPagada" Type="Boolean" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bdTareasModelStoreContainer" CdmEntityContainer="bdTareasEntities">
+          <EntitySetMapping Name="carroCompra">
+            <EntityTypeMapping TypeName="bdTareasModel.carroCompra">
+              <MappingFragment StoreEntitySet="carroCompra">
+                <ScalarProperty Name="idRecord" ColumnName="idRecord" />
+                <ScalarProperty Name="idCarrito" ColumnName="idCarrito" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="Conteo" ColumnName="Conteo" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catCarrera">
+            <EntityTypeMapping TypeName="bdTareasModel.catCarrera">
+              <MappingFragment StoreEntitySet="catCarrera">
+                <ScalarProperty Name="idCarrera" ColumnName="idCarrera" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idNivelEstudio" ColumnName="idNivelEstudio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catDireccionUsuario">
+            <EntityTypeMapping TypeName="bdTareasModel.catDireccionUsuario">
+              <MappingFragment StoreEntitySet="catDireccionUsuario">
+                <ScalarProperty Name="idRegistro" ColumnName="idRegistro" />
+                <ScalarProperty Name="idMiembro" ColumnName="idMiembro" />
+                <ScalarProperty Name="DireccionL1" ColumnName="DireccionL1" />
+                <ScalarProperty Name="DireccionL2" ColumnName="DireccionL2" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catNivelEstudio">
+            <EntityTypeMapping TypeName="bdTareasModel.catNivelEstudio">
+              <MappingFragment StoreEntitySet="catNivelEstudio">
+                <ScalarProperty Name="idNivel" ColumnName="idNivel" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catTipo">
+            <EntityTypeMapping TypeName="bdTareasModel.catTipo">
+              <MappingFragment StoreEntitySet="catTipo">
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catTipoProducto">
+            <EntityTypeMapping TypeName="bdTareasModel.catTipoProducto">
+              <MappingFragment StoreEntitySet="catTipoProducto">
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="template" ColumnName="template" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="detalleOrden">
+            <EntityTypeMapping TypeName="bdTareasModel.detalleOrden">
+              <MappingFragment StoreEntitySet="detalleOrden">
+                <ScalarProperty Name="idOrdenDetalle" ColumnName="idOrdenDetalle" />
+                <ScalarProperty Name="idOrden" ColumnName="idOrden" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="producto">
+            <EntityTypeMapping TypeName="bdTareasModel.producto">
+              <MappingFragment StoreEntitySet="producto">
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="idCarrera" ColumnName="idCarrera" />
+                <ScalarProperty Name="idTipoProducto" ColumnName="idTipoProducto" />
+                <ScalarProperty Name="nombreProducto" ColumnName="nombreProducto" />
+                <ScalarProperty Name="descCorta" ColumnName="descCorta" />
+                <ScalarProperty Name="descLargaContenido" ColumnName="descLargaContenido" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="disponible" ColumnName="disponible" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="fechaModificacion" ColumnName="fechaModificacion" />
+                <ScalarProperty Name="tags" ColumnName="tags" />
+                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="miembro">
+            <EntityTypeMapping TypeName="bdTareasModel.miembro">
+              <MappingFragment StoreEntitySet="miembro">
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="idAspNetUsers" ColumnName="idAspNetUsers" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="DireccionL2" ColumnName="DireccionL2" />
+                <ScalarProperty Name="DireccionL1" ColumnName="DireccionL1" />
+                <ScalarProperty Name="ApellidoM" ColumnName="ApellidoM" />
+                <ScalarProperty Name="ApellidoP" ColumnName="ApellidoP" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="idMiembro" ColumnName="idMiembro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orden">
+            <EntityTypeMapping TypeName="bdTareasModel.orden">
+              <MappingFragment StoreEntitySet="orden">
+                <ScalarProperty Name="OrdenPagada" ColumnName="OrdenPagada" />
+                <ScalarProperty Name="FechaOrden" ColumnName="FechaOrden" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="ApellidoM" ColumnName="ApellidoM" />
+                <ScalarProperty Name="ApellidoP" ColumnName="ApellidoP" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="idOrden" ColumnName="idOrden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -23,6 +23,8 @@ namespace ProyectoTareas.Controllers
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
+            var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("ProyectoTareas");
+            UserManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
         }
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
@@ -45,6 +47,16 @@ namespace ProyectoTareas.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userC = await UserManager.FindByNameAsync(model.UserName);
+                if (userC != null)
+                {
+                    if (!await UserManager.IsEmailConfirmedAsync(userC.Id))
+                    {
+                        await EnviarCorreoConfirmacion(userC.Id, userC.Email, "Re envio confirmación de correo");
+                        ViewBag.errorMessage = "Debe tener una cuenta confirmada para poder iniciar sesión";
+                        return View("Error");
+                    }
+                }
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
@@ -53,7 +65,7 @@ namespace ProyectoTareas.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", "Usuario o contraseña invalidos");
                 }
             }
 
@@ -78,12 +90,16 @@ namespace ProyectoTareas.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new ApplicationUser() { UserName = model.UserName,Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    await EnviarCorreoConfirmacion(user.Id,model.Email,"Confirmar Correo");
+                    ViewBag.Title = "¡Gracias por registrarte!";
+                    ViewBag.Message = "Confirma tu cuenta mediante el mensaje enviado al correo electronico que nos proporcionaste";
+                    return View("Info");
+                    //return RedirectToAction("Index", "Inicio");
+                    
                 }
                 else
                 {
@@ -93,6 +109,16 @@ namespace ProyectoTareas.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmarEmail(string userId, string code)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
+            {
+                return View("Error");
+            }
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            return View(result.Succeeded ? "ConfirmarEmail" : "Error");
         }
 
         //
@@ -119,10 +145,10 @@ namespace ProyectoTareas.Controllers
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha cambiado."
+                : message == ManageMessageId.SetPasswordSuccess ? "Su contraseña ha sido asignada."
+                : message == ManageMessageId.RemoveLoginSuccess ? "El inicio de sesión externo ha sido removido."
+                : message == ManageMessageId.Error ? "A ocurrido un error."
                 : "";
             ViewBag.HasLocalPassword = HasPassword();
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -290,7 +316,7 @@ namespace ProyectoTareas.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Inicio");
         }
 
         //
@@ -372,8 +398,27 @@ namespace ProyectoTareas.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Inicio");
             }
+        }
+        private async Task<string> EnviarCorreoConfirmacion(string userId,string email,string asunto) {
+            var mailService = new ServiciosPers.Servicio.EmailServicio();
+            //Confirmación requerida... descomentar para eliminar restricción
+            //await SignInAsync(user, isPersistent: false);
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
+            var callbackUrl = Url.Action("ConfirmarEmail", "Account",
+               new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+            var mail = new Models.MCorreoElectronico()
+            {
+                asunot = asunto,
+                de = "CorreoWizard@Wizard.com",
+                destino = email,
+                mensaje = "<h3>Por favor confirme su correo electronico haciendo click en el siguiente <a href=\"" + callbackUrl + "\">enlace</a></h3>",
+                mensajeHtml = "<h3>Por favor confirme su correo electronico haciendo click en el siguiente <a href=\"" + callbackUrl + "\">enlace</a></h3>" ,
+
+            };
+            await mailService.EnviarMensaje(mail);
+            return callbackUrl;
         }
 
         private class ChallengeResult : HttpUnauthorizedResult
